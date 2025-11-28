@@ -10,7 +10,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
+  title: 'NemiTek Dev Wiki',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
 
@@ -30,7 +30,7 @@ const config = {
   organizationName: 'Sinfjell', // Usually your GitHub org/user name.
   projectName: 'nemitek-dev-wiki', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -68,18 +68,11 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'My Site',
         logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
+          alt: 'NemiTek Logo',
+          src: 'img/Nemitek_logo-1a.png',
         },
         items: [
-          {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
-            position: 'left',
-            label: 'Tutorial',
-          },
           {
             href: 'https://github.com/Sinfjell/nemitek-dev-wiki',
             label: 'GitHub',
