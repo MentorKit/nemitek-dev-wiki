@@ -55,6 +55,24 @@ npm run deploy
 - `/docs/Event CMS` - Event management documentation
 - `/docs/custom-wp-plugin` - WordPress plugin documentation
 - `/docs/SSO` - SSO implementation guides
+- `/docs/workflows` - Step-by-step guides and process flows
+
+## Exporting Documentation
+
+To combine all documentation into a single Markdown file (useful for uploading to ChatGPT or other AI tools):
+
+```bash
+./combine-docs.sh
+```
+
+This will generate `docs-combined.md` in the root directory, containing all documentation files from the `/docs` folder in a structured format. The script:
+
+- Recursively finds all `.md` files in the `/docs` directory
+- Combines them in a logical order
+- Adds file path headers for easy navigation
+- Prevents duplicate entries
+
+**Output:** `docs-combined.md` - A single file with all documentation ready for export.
 
 ## Contributing
 
