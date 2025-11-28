@@ -27,8 +27,8 @@ We collaborate closely with **DTB.digital**, our vendor, who works extensively o
 - [Introduction & Architecture](./architecture) - System overview and architecture
 - [SSO Login Solution](./SSO) - Authentication and user management
 - [Event Post System](./Event%20CMS/cpt) - Event management features
-- [Forms & User Management](./Event%20CMS/beaver-themer#42-gravity-forms) - Form handling and user interactions
-- [Webhooks & Data Integration](./architecture#data-flow) - External system integrations
+- [Forms & User Management](./Event%20CMS/beaver-themer) - Form handling and user interactions
+- [Webhooks & Data Integration](./architecture) - External system integrations
 - [Ad Placements](./Event%20CMS/ads) - Advertisement management
 - [Changelog](./changelog) - Complete version history
 
