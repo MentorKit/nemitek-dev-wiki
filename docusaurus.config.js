@@ -4,6 +4,7 @@
 // There are various equivalent ways to declare your Docusaurus config.
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
+import 'dotenv/config';
 import {themes as prismThemes} from 'prism-react-renderer';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
@@ -81,6 +82,14 @@ const config = {
         },
       },
     ],
+    [
+      'docusaurus-plugin-chat-page',
+      {
+        openai: {
+          apiKey: process.env.OPENAI_API_KEY,
+        },
+      },
+    ],
   ],
 
   themeConfig:
@@ -97,6 +106,11 @@ const config = {
           src: 'img/Nemitek_logo-1a.png',
         },
         items: [
+          {
+            to: '/chat',
+            label: 'Chat',
+            position: 'right',
+          },
           {
             href: 'https://github.com/Sinfjell/nemitek-dev-wiki',
             label: 'GitHub',
