@@ -59,6 +59,30 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      require.resolve('@cmfcmf/docusaurus-search-local'),
+      {
+        // Options for the search plugin
+        indexDocs: true,
+        indexBlog: false,
+        indexPages: false,
+        language: 'en',
+        style: undefined,
+        maxSearchResults: 10,
+        lunr: {
+          tokenizerSeparator: /[\s\-]+/,
+          b: 0.75,
+          k1: 1.2,
+          titleBoost: 5,
+          contentBoost: 1,
+          tagsBoost: 3,
+          parentCategoriesBoost: 2,
+        },
+      },
+    ],
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
