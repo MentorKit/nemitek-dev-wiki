@@ -24,18 +24,18 @@ We collaborate closely with **DTB.digital**, our vendor, who works extensively o
 
 ## Documentation Structure
 
-- [Introduction & Architecture](./arrangement/introduction.md) - System overview and architecture
-- [SSO Login Solution](./arrangement/sso-login.md) - Authentication and user management
-- [Event Post System](./arrangement/event-post-system.md) - Event management features
-- [Forms & User Management](./arrangement/forms.md) - Form handling and user interactions
-- [Webhooks & Data Integration](./arrangement/webhooks.md) - External system integrations
-- [Ad Placements](./arrangement/ad-placements.md) - Advertisement management
-- [Changelog](./arrangement/changelog.md) - Complete version history
+- [Introduction & Architecture](./architecture) - System overview and architecture
+- [SSO Login Solution](./SSO) - Authentication and user management
+- [Event Post System](./Event%20CMS/cpt) - Event management features
+- [Forms & User Management](./Event%20CMS/beaver-themer#42-gravity-forms) - Form handling and user interactions
+- [Webhooks & Data Integration](./architecture#data-flow) - External system integrations
+- [Ad Placements](./Event%20CMS/ads) - Advertisement management
+- [Changelog](./changelog) - Complete version history
 
 ## Quick Links
 
 - [Code Snippets Overview](https://kurs.nemitek.no) - All code snippets documentation
-- [Graphical Guidelines](https://kurs.nemitek.no) - Fonts and colors information
+- [Graphical Guidelines](./graphical_guidelines) - Fonts and colors information
 
 ---
 
