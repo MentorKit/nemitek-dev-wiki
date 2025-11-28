@@ -4,8 +4,11 @@
 // There are various equivalent ways to declare your Docusaurus config.
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import {themes as prismThemes} from 'prism-react-renderer';
+
+// Load environment variables from .env file
+dotenv.config();
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
