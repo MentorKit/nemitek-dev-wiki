@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
+    "prestart": "./combine-docs.sh && cp docs-combined.md static/",
     "start": "docusaurus start",
+    "prebuild": "./combine-docs.sh && cp docs-combined.md static/",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",

@@ -115,6 +115,11 @@ const config = {
             position: 'right',
           },
           {
+            type: 'html',
+            position: 'right',
+            value: '<a href="/docs-combined.md" download="docs-combined.md" class="download-button" style="background-color: var(--ifm-color-primary); color: white; padding: 0.5rem 1rem; border-radius: 4px; font-weight: 500; text-decoration: none; display: inline-block; transition: background-color 0.2s;">Download MD</a>',
+          },
+          {
             href: 'https://github.com/Sinfjell/nemitek-dev-wiki',
             label: 'GitHub',
             position: 'right',
