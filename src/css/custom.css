@@ -28,3 +28,29 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* Download button styling */
+.download-button {
+  background-color: var(--ifm-color-primary) !important;
+  color: white !important;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.2s;
+}
+
+.download-button:hover {
+  background-color: var(--ifm-color-primary-dark) !important;
+  color: white !important;
+  text-decoration: none;
+}
+
+[data-theme='dark'] .download-button {
+  background-color: var(--ifm-color-primary) !important;
+}
+
+[data-theme='dark'] .download-button:hover {
+  background-color: var(--ifm-color-primary-dark) !important;
+}
