@@ -6,6 +6,8 @@ sidebar_position: 2
 
 The **Nemitek Event & Integration Manager** plugin centralizes all custom event logic for arrangement.nemitek.no.
 
+Repository: [Nemitek Event & Integration Manager on Bitbucket](https://bitbucket.org/simplylearn/nemitek-event-integration-manager/src/main/)
+
 ## Responsibilities
 
 - Normalize **Gravity Forms** submissions and send them to Salesforce.

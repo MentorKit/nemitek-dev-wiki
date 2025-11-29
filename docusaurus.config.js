@@ -162,6 +162,10 @@ const config = {
                 label: 'GitHub',
                 href: 'https://github.com/Sinfjell/nemitek-dev-wiki',
               },
+              {
+                label: 'Custom Plugin',
+                href: 'https://bitbucket.org/simplylearn/nemitek-event-integration-manager/src/main/',
+              },
             ],
           },
         ],

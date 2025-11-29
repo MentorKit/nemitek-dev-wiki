@@ -51,8 +51,6 @@ process_file_once "docs/Event CMS/ads.md"
 
 # Process custom-wp-plugin
 process_file_once "docs/custom-wp-plugin/intro.md"
-process_file_once "docs/custom-wp-plugin/outgoing-data/event-post-creation.md"
-process_file_once "docs/custom-wp-plugin/outgoing-data/event-submission.md"
 
 # Process code snippets (all files in subfolders)
 find docs/code-snippets -name "*.md" -type f | sort | while read file; do

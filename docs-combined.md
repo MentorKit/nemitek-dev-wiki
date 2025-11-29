@@ -1,6 +1,6 @@
 # NemiTek Dev Wiki - Complete Documentation
 
-Generated: Fri Nov 28 17:22:43 CET 2025
+Generated: Sat Nov 29 12:50:29 CET 2025
 
 
 ---
@@ -59,7 +59,7 @@ We collaborate closely with **DTB.digital**, our vendor, who works extensively o
 sidebar_position: 2
 ---
 
-# Architecture of kurs.nemitek.no
+# Architecture of arrangement.nemitek.no
 
 # System overview
 
@@ -236,6 +236,61 @@ Post type: Arrangementer.
 Connected taxonomies: Region, Fagområder (competence areas) and arrangementstype (event type). 
 Field group: A field group is connected to all event posts. We display fields relevant to the events via this field group. 
 
+## ACF Fields for the “Arrangement” Post Type
+
+Each event post uses the ACF field group **“Arrangement-felter”**, which provides all structured data used across the platform — for frontend display, conditional logic, form behavior, and Salesforce payload enrichment.
+
+### Field Overview
+
+| Label | Name | Type | Notes |
+|-------|-------|-------|-------|
+| Dato | `dato` | Date/Time | Event start datetime. Used for sorting, display, ICS generation. |
+| Dato slutt | `dato_slutt` | Date/Time | Event end datetime. Included in Salesforce payload. |
+| Sted | `sted` | Text | City/venue name shown on event cards and detail pages. |
+| Adresse | `adresse` | Text | Full address; included in ICS file + Salesforce payload. |
+| Skjema INNloggede brukere | `skjema` | Select | Selects which Gravity Form to show for logged-in users. |
+| Skjema UTloggede brukere | `skjema_utloggede_brukere` | Select | Selects which Gravity Form to show for guests. |
+| Video | `video` | Text Area | Optional embed shown on event page. |
+| Generisk reise | `generisk_reise` | True/False | Toggles generic travel info. |
+| Pris | `pris` | Number | Standard price. Sent to Salesforce. |
+| Pris for studentmedlemmer | `pris_student` | Number | Student price. Sent to Salesforce. |
+| Pris for de som ikke er medlemmer | `pris_ikke_medlem` | Number | Non-member price. Sent to Salesforce. |
+| Omdirigering | `omdirigering` | URL | After-submit redirect URL. |
+| Venteliste | `venteliste` | True/False | **Salesforce-controlled.** When an event is marked as full in Salesforce, this flag is automatically set. UI shows: “You will be placed on the waitlist.” Users *can still register*, but are flagged as waitlisted in the payload. |
+| Arrangør | `arrangor` | Text | Organizer name. |
+| Maks kapasitet | `maks_kapasitet` | Text | Display-only capacity indicator. Not enforced in WP. |
+| Referansenummer | `referansenummer` | Text | Internal event reference sent to Salesforce. |
+| Ekstern påmeldingslenke | `ekstern_pameldingslenke` | URL | Used when registration is handled externally (button becomes outbound link). |
+| Påmelding ikke aktiv enda | `pamelding_ikke_aktiv_enda` | True/False | Toggles whether the registration form is visible. Used for “registration opens later.” |
+| Konferanse | `conference_key` | Select | Unique key used for conditional logic + conference workflow. Sent to Salesforce. |
+
+### Notes on Salesforce integration
+
+#### **venteliste (Waitlist) Behavior**
+- Salesforce marks an event as **full**, which updates the `venteliste` field in WordPress.  
+- When `venteliste = true`:
+  - The event page displays **waitlist messaging**.
+  - Users *can still submit forms*.
+  - All form submissions are flagged as **waitlist registrations** in the payload.
+
+This allows Salesforce to control capacity while still capturing overflow interest.
+
+### How These Fields Are Used
+
+All ACF values are automatically included in the form submission payload through the integration plugin.  
+This ensures Salesforce receives:
+
+- Event identity (ID, title, reference)  
+- Event timing (start/end)  
+- Pricing (member, student, non-member)  
+- State flags (waitlist active, registration active/inactive)  
+- Conference metadata  
+- Organizer and location details  
+
+Together, they define the event’s structure and drive the registration logic across the entire platform.
+
+
+
 
 ---
 ## File: Event CMS/beaver-themer.md
@@ -341,57 +396,6 @@ The beaver themer layout with link here is placed for advert purposes.
 
 * This document shows the version control of the CSS code placed to obtain 3 3-column structure for sidebars and main content equal to 1088px. [https://fjellestad.notion.site/CSS-for-beaver-builder-event-layout-0dcbd889a50040e58def21d471c55d02?pvs=4](https://fjellestad.notion.site/CSS-for-beaver-builder-event-layout-0dcbd889a50040e58def21d471c55d02?pvs=4) 
 
-
----
-## File: custom-wp-plugin/intro.md
----
-
----
-sidebar_position: 1
----
-
-# Intro
-
-
----
-## File: custom-wp-plugin/outgoing-data/event-post-creation.md
----
-
-# Payload on event post creation 
-[Link to code snippet](https://kurs.nemitek.no/wp-admin/admin.php?page=edit-snippet&id=32)
-
-[Link to Uncanny Automator recipe.](https://kurs.nemitek.no/wp-admin/post.php?post=39525&action=edit)
-
-When a new event is created, essential data is transmitted to Microsoft Dynamics to ensure that all future participant submissions are accurately associated with the correct event ID. This is technically implemented through a custom-coded function, send_event_data_to_webhook, specifically designed to dispatch related taxonomies. The activation of this function is facilitated by Uncanny Automator, which serves as the trigger mechanism and automatically provides the relevant post_id as an argument to the function.
-
----
-## File: custom-wp-plugin/outgoing-data/event-submission.md
----
-
-# Payload on event participant submission
-Through our custom event integration plugin is sending data to a webhook upon Gravity Form submissions. The purpose is to send form submission data to a specified webhook URL for further processing or integration with external services.
-
-The payload includes the form fields and additional information, such as the user's WordPress username, email, the post from which the form was submitted, and other relevant metadata.
-
-Technical Overview
-
-The script is written in PHP and hooks into the Gravity Forms gform_after_submission action to execute the function send_data_to_webhook() after submitting a form.
-
-Field Key Mapping As of version 1.02, the plugin uses CSS class names for consistent field identification:
-
-- Fields with CSS classes: The CSS class name is used directly as the key in the webhook payload (e.g., a field with CSS class user_phone will be sent as user_phone)
-- Fields without CSS classes: The sanitized field label is used as the key
-- This ensures that fields with the same purpose across different forms use the same key, regardless of label variations (e.g., "Telefon" vs "Phone" both become user_phone if they share the CSS class)
-
-Data Collection
-
-- Form Fields: Loops through all fields in the form and collects their values.
-- User Information: Adds the current user's username, email, and display name.
-- Post Information: Adds the ID, title, and URL of the post from which the form was submitted.
-- Taxonomies: Adds the taxonomies associated with the current post.
-- Custom Fields: Adds custom post meta such as event price and date if applicable.
-- Sending the Payload
-- The function wp_safe_remote_post() is used to securely send the payload to the webhook URL. The payload is sent as a JSON object with a 'Content-Type' header set to 'application/json'.
 
 ---
 ## File: code-snippets/89-preloading.md
@@ -670,6 +674,244 @@ Implementation:
 
 The implementation is done through a custom WordPress function hooked into the wp\_enqueue\_scripts action. This function checks two primary conditions: the current page type and the course completion status for the logged-in user.
 
+
+
+---
+## File: custom-wp-plugin/api-endpoints.md
+---
+
+---
+sidebar_position: 5
+---
+
+# API endpoints
+
+The plugin exposes REST endpoints under the namespace `nemitek/v1` to allow external systems (e.g. Salesforce/Make) to manage event enrollments.
+
+## Endpoints
+
+### `GET|POST /nemitek/v1/remove-event-signup`
+
+- **Params**
+  - `username` (string) – WordPress username / external_id
+  - `post_id` (int) – event post ID
+- **Action**
+  - Calls `Nemitek_User_Manager::remove_event_signup()`.
+
+### `POST /nemitek/v1/update-enrollment-status`
+
+- **Params**
+  - `username` (string)
+  - `post_id` (int)
+  - `action` (string: `enroll`, `waitlist`, `unsubscribe`)
+- **Action**
+  - Resolves the user, then calls the corresponding method on `Nemitek_User_Manager`.
+
+## Permissions
+
+- `remove-event-signup` is intentionally **open** (`permission_callback` = `__return_true`) for backwards compatibility.
+- `update-enrollment-status` uses `check_permission()` which requires a **WordPress-authenticated request** (e.g. Application Password).
+
+These endpoints are the bridge between Salesforce automation and WordPress user/event state.
+
+
+---
+## File: custom-wp-plugin/architecture.md
+---
+
+---
+sidebar_position: 2
+---
+
+# Plugin architecture
+
+The **Nemitek Event & Integration Manager** plugin centralizes all custom event logic for arrangement.nemitek.no.
+
+Repository: [Nemitek Event & Integration Manager on Bitbucket](https://bitbucket.org/simplylearn/nemitek-event-integration-manager/src/main/)
+
+## Responsibilities
+
+- Normalize **Gravity Forms** submissions and send them to Salesforce.
+- Attach **event context** (CPT `arrangement` ACF + taxonomies) and **user context** to every payload.
+- Manage **user event status** (signed up vs waitlist) via user meta.
+- Expose **REST API endpoints** to update/remove event signups from external systems.
+- Provide **shortcodes** to check user status on the current event.
+- Provide a **Gutenberg block** for external registration links.
+
+## Code structure
+
+- `includes/core/`
+  - `class-event-manager.php` – helpers around events.
+  - `class-user-manager.php` – waitlist / signup user meta logic.
+- `includes/integrations/`
+  - `class-gravity-forms.php` – hooks into Gravity Forms.
+- `includes/api/`
+  - `class-api-endpoints.php` – registers REST routes.
+  - `class-api-handlers.php` – implements REST callbacks.
+- `includes/shortcodes/`
+  - `class-event-shortcodes.php`
+- `includes/blocks/`
+  - `class-external-registration-link-block.php`
+
+
+---
+## File: custom-wp-plugin/gravity-forms-integration.md
+---
+
+---
+sidebar_position: 3
+---
+
+# Gravity Forms integration
+
+The plugin hooks into **Gravity Forms** to standardize all event-related submissions before sending them to Salesforce.
+
+## Hooks
+
+- `gform_after_submission` → main entry point for building the payload.
+- `gform_confirmation` → optional redirect back to the same event page (`#pamelding` anchor).
+- Form-specific hooks (e.g. form 14/Rebusløp):
+  - `gform_pre_validation_14`
+  - `gform_pre_render_14`
+  - `gform_pre_process_14`
+
+## Responsibilities
+
+- Read all submitted fields and map each field to a **data key**:
+  - CSS class → **primary key**
+  - Sanitized field label → **fallback key**
+- Attach:
+  - Current event post (ID, title, URL)
+  - Event ACF (dates, prices, conference_key, etc.)
+  - Event taxonomies
+  - User data (username, email, display name)
+- Build a normalized JSON payload and send it to Salesforce via `wp_safe_remote_post()`.
+
+For special workflows (e.g. **Rebusløp form 14**) the class also:
+
+- Populates dropdowns from Salesforce.
+- Adds/removes fields from the outgoing payload based on conditional logic.
+
+
+---
+## File: custom-wp-plugin/shortcodes.md
+---
+
+---
+sidebar_position: 6
+---
+
+# Shortcodes
+
+The plugin exposes two shortcodes for use in Beaver Builder, Gutenberg, or templates.  
+They allow the frontend to react to the user's registration state for the current event.
+
+Shortcodes are implemented in:  
+`includes/shortcodes/class-event-shortcodes.php`
+
+## `[is_on_waitlist]`
+
+Returns `"1"` if the **current logged-in user** is on the waitlist for the current event.  
+Returns `"0"` otherwise.
+
+### Attributes
+
+- `event_id` (optional) – defaults to the current post ID.
+
+### Example
+
+```text
+[is_on_waitlist]
+```
+
+With explicit event ID:
+
+```text
+[is_on_waitlist event_id="1234"]
+```
+
+Used with Beaver conditions to show waitlist messaging on event pages.
+
+## `[has_signed_up_for_event]`
+
+Returns `"1"` if the user is fully enrolled in the event.  
+Returns `"0"` if not enrolled.
+
+### Attributes
+
+- `event_id` (optional) – defaults to the current post ID.
+
+### Example
+
+```text
+[has_signed_up_for_event]
+```
+
+With explicit event ID:
+
+```text
+[has_signed_up_for_event event_id="1234"]
+```
+
+## How These Shortcodes Work
+
+Internally, both shortcodes call methods on `Nemitek_User_Manager`:
+
+- `is_on_waitlist( $user_id, $event_id )`
+- `has_signed_up_for_event( $user_id, $event_id )`
+
+These methods check user meta values:
+
+- `waitlist_event_ids`
+- `signed_up_event_ids`
+
+The shortcodes provide a simple way to conditionally display:
+
+- "You are on the waitlist"
+- "You are registered"
+- "You have not signed up yet"
+
+…directly in Beaver Builder or Gutenberg.
+
+
+
+
+
+
+
+
+---
+## File: custom-wp-plugin/user-event-status.md
+---
+
+---
+sidebar_position: 4
+---
+
+# User event status (waitlist & signup)
+
+The plugin tracks a user’s relationship to events in **user meta**, managed by `Nemitek_User_Manager`.
+
+## User meta keys
+
+- `waitlist_event_ids` – array of event post IDs where the user is on the waitlist.
+- `signed_up_event_ids` – array of event post IDs where the user is fully enrolled.
+
+## Core methods
+
+- `add_to_waitlist( $user_id, $event_id )`
+- `remove_from_waitlist( $user_id, $event_id )`
+- `enroll_in_event( $user_id, $event_id )`
+- `unsubscribe_from_event( $user_id, $event_id )`
+- `has_signed_up_for_event( $user_id, $event_id )`
+- `is_on_waitlist( $user_id, $event_id )`
+
+## How it is used
+
+- Gravity Forms submissions call these methods to **move users between waitlist and enrolled**.
+- REST API endpoints (see *API endpoints* doc) allow external systems to:
+  - Enroll a user, waitlist them, or unsubscribe them.
+- Shortcodes use these methods to show/hide UI based on the current user’s status.
 
 
 ---

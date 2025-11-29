@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Architecture of kurs.nemitek.no
+# Architecture of arrangement.nemitek.no
 
 # System overview
 
