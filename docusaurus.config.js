@@ -95,6 +95,16 @@ const config = {
     ],
   ],
 
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'algolia-site-verification',
+        content: '6B589B85EE8A45BA',
+      },
+    },
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -157,3 +167,4 @@ const config = {
 };
 
 export default config;
+
