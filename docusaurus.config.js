@@ -85,14 +85,19 @@ const config = {
         },
       },
     ],
-    [
-      'docusaurus-plugin-chat-page',
-      {
-        openai: {
-          apiKey: process.env.OPENAI_API_KEY,
-        },
-      },
-    ],
+    // Only include chat plugin if OpenAI API key is available
+    ...(process.env.OPENAI_API_KEY
+      ? [
+          [
+            'docusaurus-plugin-chat-page',
+            {
+              openai: {
+                apiKey: process.env.OPENAI_API_KEY,
+              },
+            },
+          ],
+        ]
+      : []),
   ],
 
   headTags: [
@@ -119,11 +124,16 @@ const config = {
           src: 'img/Nemitek_logo-1a.png',
         },
         items: [
-          {
-            to: '/chat',
-            label: 'Chat',
-            position: 'right',
-          },
+          // Only show Chat link if OpenAI API key is available
+          ...(process.env.OPENAI_API_KEY
+            ? [
+                {
+                  to: '/chat',
+                  label: 'Chat',
+                  position: 'right',
+                },
+              ]
+            : []),
           {
             type: 'html',
             position: 'right',
