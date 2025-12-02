@@ -18,7 +18,7 @@ The plugin hooks into **Gravity Forms** to standardize all event-related submiss
 ## Responsibilities
 
 - Read all submitted fields and map each field to a **data key**:
-  - CSS class → **primary key**
+  - CSS class → **primary key**. See [this Google Sheet](https://docs.google.com/spreadsheets/d/1AFHoP_8dx93XkvF4I6DH5GsPofmEt4kXC4u5BHQxJ-0/edit?usp=sharing) for event mapping
   - Sanitized field label → **fallback key**
 - Attach:
   - Current event post (ID, title, URL)
@@ -26,6 +26,7 @@ The plugin hooks into **Gravity Forms** to standardize all event-related submiss
   - Event taxonomies
   - User data (username, email, display name)
 - Build a normalized JSON payload and send it to Salesforce via `wp_safe_remote_post()`.
+
 
 For special workflows (e.g. **Rebusløp form 14**) the class also:
 
