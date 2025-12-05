@@ -63,52 +63,7 @@ const config = {
     ],
   ],
 
-  plugins: [
-    [
-      require.resolve('@cmfcmf/docusaurus-search-local'),
-      {
-        // Options for the search plugin
-        indexDocs: true,
-        indexBlog: false,
-        indexPages: false,
-        language: 'en',
-        style: undefined,
-        maxSearchResults: 10,
-        lunr: {
-          tokenizerSeparator: /[\s\-]+/,
-          b: 0.75,
-          k1: 1.2,
-          titleBoost: 5,
-          contentBoost: 1,
-          tagsBoost: 3,
-          parentCategoriesBoost: 2,
-        },
-      },
-    ],
-    // Only include chat plugin if OpenAI API key is available
-    ...(process.env.OPENAI_API_KEY
-      ? [
-          [
-            'docusaurus-plugin-chat-page',
-            {
-              openai: {
-                apiKey: process.env.OPENAI_API_KEY,
-              },
-            },
-          ],
-        ]
-      : []),
-  ],
-
-  headTags: [
-    {
-      tagName: 'meta',
-      attributes: {
-        name: 'algolia-site-verification',
-        content: '6B589B85EE8A45BA',
-      },
-    },
-  ],
+  plugins: [],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -124,16 +79,6 @@ const config = {
           src: 'img/Nemitek_logo-1a.png',
         },
         items: [
-          // Only show Chat link if OpenAI API key is available
-          ...(process.env.OPENAI_API_KEY
-            ? [
-                {
-                  to: '/chat',
-                  label: 'Chat',
-                  position: 'right',
-                },
-              ]
-            : []),
           {
             type: 'html',
             position: 'right',
@@ -172,6 +117,32 @@ const config = {
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
+      },
+      // Algolia DocSearch configuration
+      algolia: {
+        // The application ID provided by Algolia
+        appId: process.env.ALGOLIA_APP_ID || 'SW6YK9B8PN',
+        
+        // Public API key: it's safe to commit it
+        // This is the Search-Only API key (not the Admin API key)
+        apiKey: process.env.ALGOLIA_SEARCH_API_KEY || 'fb833c3e5b9e2e453d552d3dc7ec73b2',
+        
+        // The Algolia index name
+        indexName: process.env.ALGOLIA_INDEX_NAME || 'Nemitek DevDocs',
+        
+        // Optional: Algolia Assistant ID for AI-powered search
+        // Uncomment and set if you have an Algolia Assistant ID
+        // askAi: process.env.ALGOLIA_ASSISTANT_ID,
+        
+        // Optional: Contextual search configuration
+        contextualSearch: true,
+        
+        // Optional: Search parameters
+        searchParameters: {},
+        
+        // Optional: Replace the default search component
+        // Set to false if you want to use a custom search component
+        // searchPagePath: 'search',
       },
     }),
 };
