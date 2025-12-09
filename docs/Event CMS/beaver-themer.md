@@ -62,13 +62,7 @@ Currently 21 Sept 2023, there are a lot of unfinished questions regarding this s
 
 ### Dynamic organization number lookup in Brønnysund 
 
-Done 16 Feb 2025 10:07. 
-
-An organization number lookup feature is implemented in Brønnøysund for **logged-out** users. To achieve this, we use JavaScript and CSS code that is integrated into the Beaver Builder module, which hosts the shortcode for displaying forms for logged-out users.   
-![][image1]
-
-**Link**  
-[Beaver builder saved rows where javascript and css is stored](https://kurs.nemitek.no/fl-builder-template/pamelding-arrangementer-2/) 
+An organization number lookup feature is implemented in Brønnøysund for **logged-out** users. To achieve this, we use this plugin https://github.com/Sinfjell/brreg-gravity-forms where input and output fields are deteremined based on css classes. 
 
 ### Region events {#4.4-region-events}
 
